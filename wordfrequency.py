@@ -107,3 +107,13 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+
+#notater lasse
+#file = open(file-name)
+#content = file.read()
+#Lines= content.split('\n')
+#file.close()
+#return lines
