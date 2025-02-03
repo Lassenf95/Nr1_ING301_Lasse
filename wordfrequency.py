@@ -19,12 +19,14 @@ def read_file(file_name):
     filenSomLeses = open(file_name)
     innholdIFilen = filenSomLeses.read()
     innholdSomLinjer = innholdIFilen.split('\n')
-    resultatSomSkalReturneres = [] #udenfinert først
-    for HverEnesteLinje in innholdSomLinjer[1:]: #for hver eneste linjer skal verdiene mates tilbake. Kjører på helt til ingen linjer gjenstår
-        resultatSomSkalReturneres.append(lines_to_words(HverEnesteLinje)) #bygger på for hver kjøring
-    filenSomLeses.close() #lukker filen når alle linjene er lest ut   
+    #resultatSomSkalReturneres = [] #udenfinert først
+    #for lines in innholdSomLinjer[1:]: #for hver eneste linjer skal verdiene mates tilbake. Kjører på helt til ingen linjer gjenstår
+    #    resultatSomSkalReturneres.append(lines_to_words(lines)) #bygger på for hver kjøring
+    #filenSomLeses.close() #lukker filen når alle linjene er lest ut   
+    #return resultatSomSkalReturneres 
+    filenSomLeses.close()
+    return innholdSomLinjer
 
-    return resultatSomSkalReturneres 
 
 def lines_to_words(lines):
     """
@@ -43,13 +45,19 @@ def lines_to_words(lines):
     # og "lower()": https://docs.python.org/3/library/stdtypes.html#str.lower være nyttig
     
      ##LASSE LINJER START
-    resultat = [] # tom liste 
-    for alleLinjer in lines:
-        LinjerTilOrd = lines.split(' ') #splitter opp den aktuelle linjen til stringer for hvert mellomrom
-        LinjerTilOrdFilterer = LinjerTilOrd.strip([',','.',':',';','!','?']) #fjerner alle ''ord'' i listen som er av , . : ; ! `?`
-        LinjerSmaaBokstaver = LinjerTilOrdFilterer.lower()
-        resultat += LinjerSmaaBokstaver #bygger opp en ny liste med alle ordene
-    return resultat
+    resulterendeString = '' # tom streng 
+    
+    for alleLinjer in lines:    
+        LinjerTilOrd = alleLinjer.split(' ') #splitter opp den aktuelle linjen til stringer for hvert mellomrom
+        LinjerTilOrdFilterer = LinjerTilOrd.strip(',','.',':',';','!','?')                                             
+        resulterendeString += LinjerTilOrdFilterer
+        #
+        #for alleOrd in listenMin:
+        #LinjerTilOrdFilterer = alleOrd.strip([',','.',':',';','!','?']) #fjerner alle ''ord'' i listen som er av , . : ; ! `?`
+        #LinjerSmaaBokstaver = LinjerTilOrdFilterer.lower()
+        #resultat += LinjerSmaaBokstaver #bygger opp en ny liste med alle ordene
+        #resultat = LinjerTilOrdFilterer
+    return resulterendeString
     ##LASSE LINJER SLUTT
     
 
@@ -62,7 +70,7 @@ def compute_frequency(words):
     F. eks. Inn ["hun", "hen", "han", "hen"], Ut: {"hen": 2, "hun": 1, "han": 1}
     """
     ##LASSE LINJER START
-    resultat = list(words.items())
+    resultat = list(words.values())
     return resultat 
     ##LASSE LINJER SLUTT
     
