@@ -1,67 +1,59 @@
 from pathlib import Path
 import sys
-
-
-# Dette er start-koden til den første programmeringsoppgave i ING 301
+#import filter
+import collections
 #
-# Du skal utvikle et programm som finner det hyppigste ordet i en gitt tekstfil.
-# Dette høres kanskje litt komplisiert ut, men fortvil ikke!
-# Vi har forberedt den grove strukturen allerede. Din oppgave er å implementere
-# noen enkelte funskjoner som trengs for det hele til å virke.
-# Enhver funksjon kommer med en dokumentasjon som forklarer hva skal gjøres.
-
 
 def read_file(file_name):
     """
-    Denne funksjonen får et filnavn som argument og skal gi
+    Denne funksjonen får et filnavn som argument og gir
     tilbake en liste av tekststrenger som representerer linjene i filen.
     """
-    filenSomLeses = open(file_name)
+    #får feilmelding på at python ikke kan lese det. formatet på filen er cp1252, konverter til utf-8.
+    
+    filenSomLeses = open(file_name, encoding="utf-8")     
     innholdIFilen = filenSomLeses.read()
-    innholdSomLinjer = innholdIFilen.split('\n')
-    #resultatSomSkalReturneres = [] #udenfinert først
-    #for lines in innholdSomLinjer[1:]: #for hver eneste linjer skal verdiene mates tilbake. Kjører på helt til ingen linjer gjenstår
-    #    resultatSomSkalReturneres.append(lines_to_words(lines)) #bygger på for hver kjøring
-    #filenSomLeses.close() #lukker filen når alle linjene er lest ut   
-    #return resultatSomSkalReturneres 
+    innholdSomLinjer = innholdIFilen.split("\n")
+    
+    #ALTERNATIV ENDA KORTET 
+    #with open(file_name, encoding="utf-8") as filenSomLeses:
+    #   innholdSomLinjer = filenSomLeses.read().splitlines()
     filenSomLeses.close()
+    
+    
+   
+   # with open(file_name, encoding="utf-8") as filenSomLeses:
+    #    innholdSomLinjer = filenSomLeses.read().splitlines()
     return innholdSomLinjer
 
 
-def lines_to_words(lines):
-    """
-    Denne funksjonen får en liste med strenger som input (dvs. linjene av tekstfilen som har nettopp blitt lest inn)
-    og deler linjene opp i enkelte ord. Enhver linje blir delt opp der det er blanktegn (= whitespaces).
-    Desto videre er vi bare interessert i faktiske ord, dvs. alle punktum (.), kolon (:), semikolon (;),
-    kommaer (,), spørsmåls- (?) og utråbstegn (!) skal fjernes underveis.
-    Til sist skal alle ord i den resulterende listen være skrevet i små bokstav slik at "Odin" og "odin"
-    blir behandlet likt.
-    OBS! Pass også på at du ikke legger til tomme ord (dvs. "" eller '' skal ikke være med) i resultatlisten!
 
-    F. eks: Inn: ["Det er", "bare", "noen få ord"], Ut: ["Det", "er", "bare", "noen", "få", "ord"]
-    """
-    # Tips: se på "split()"-funksjonen https://docs.python.org/3/library/stdtypes.html#str.split
-    # i tillegg kan "strip()": https://docs.python.org/3/library/stdtypes.html#str.strip
-    # og "lower()": https://docs.python.org/3/library/stdtypes.html#str.lower være nyttig
+
+def lines_to_words(lines): #mater inn en liste format [a,b,c d... osv] til her. split funksjonene funker bare på string, så må lage en lang string av hele lista før 
+    #print(lines)
+    #print(type(lines))
     
-     ##LASSE LINJER START
-    resulterendeString = '' # tom streng 
+    EnStorString = ''
+    for alleLinjer in lines:   #bygger opp hele stringen før splitting og rensing  
+         EnStorString += alleLinjer +' ' 
+    #print(EnStorString)
     
-    for alleLinjer in lines:    
-        LinjerTilOrd = alleLinjer.split(' ') #splitter opp den aktuelle linjen til stringer for hvert mellomrom
-        LinjerTilOrdFilterer = LinjerTilOrd.strip(',','.',':',';','!','?')                                             
-        resulterendeString += LinjerTilOrdFilterer
-        #
-        #for alleOrd in listenMin:
-        #LinjerTilOrdFilterer = alleOrd.strip([',','.',':',';','!','?']) #fjerner alle ''ord'' i listen som er av , . : ; ! `?`
-        #LinjerSmaaBokstaver = LinjerTilOrdFilterer.lower()
-        #resultat += LinjerSmaaBokstaver #bygger opp en ny liste med alle ordene
-        #resultat = LinjerTilOrdFilterer
-    return resulterendeString
-    ##LASSE LINJER SLUTT
+    TEGN_JEG_VIL_FJERNE = ['.','-',',',';','!','?',';',':'] #RENSETIS
+    for hvertElement in TEGN_JEG_VIL_FJERNE:    
+        EnStorString = EnStorString.replace(hvertElement, '')  #erstatter alle tegn og erstatter de med ingenting
+    #print(EnStorString)
+    
+    #får alt i lower case
+    EnStorString = EnStorString.lower() #Overskriver stringen med en ny string der alt ewr lite
+    
+    #gjør om til liste igjen. splitter alt med mellomrom
+    Resultatet = EnStorString.split()
+    return Resultatet
+
     
 
 def compute_frequency(words):
+    
     """
     Denne funksjonen tar inn en liste med ord og så lager den en frekvenstabell ut av den. En frekvenstabell
     teller hvor ofte hvert ord dykket opp i den opprinnelige input listen. Frekvenstabllen
@@ -70,8 +62,39 @@ def compute_frequency(words):
     F. eks. Inn ["hun", "hen", "han", "hen"], Ut: {"hen": 2, "hun": 1, "han": 1}
     """
     ##LASSE LINJER START
-    resultat = list(words.values())
-    return resultat 
+    
+    #Ordbok = {}
+    #bruker collections sin tellefunksjon som teller antall forekomseter av ord i en lsitet sortet-
+    #OrdForekomst = collections.Counter(words)
+    Ordbok = {} #MANGE MÅTER
+    for word in words[:]:
+        Ordbok[word] = Ordbok.get(word, 0) +1
+    #sorter
+    SortertOrdbok = dict(sorted(Ordbok.items(), key=lambda item: item[1]))
+    #print(type(Ordbok))
+    #SortertOrdbok =/=
+    #SortertOrdbok=sorted(Ordbok.keys()) #[:]
+    #print(Ordbok)
+    #sorted(frequency_table.keys())
+   # print(SortertOrdbok)
+     
+    return SortertOrdbok #senter ut resultatet 
+   # OrdForekomst = compute_frequency(words.split())
+    #print(OrdForekomst)
+    #print(type(OrdForekomst))
+    #return OrdForekomst
+    
+    # for Ord in words:
+    #     if Ord in Ordbok:
+    #         Ordbok[Ord] += 1 #tell opp en hvis ordet finnes
+    #     else:
+    #         Ordbok[ord]= 1 #legger til ordet med verdi en når nye ord finnes
+
+    # print(Ordbok)
+    
+    # #compute_frequency('hun', 'hen', 'han', 'hen')
+    # #print(compute_frequency(["hun", "hen", "han", "hen"]))
+    # return Ordbok
     ##LASSE LINJER SLUTT
     
 
@@ -86,21 +109,48 @@ def remove_filler_words(frequency_table):
     Målet med denne funksjonen er at den skal få en frekvenstabll som input og så fjerne alle fyll-ord
     som finnes i FILL_WORDS.
     """
-    resultatWords = frequency_table.strip([FILL_WORDS])
+    #del frequency_tabl[]
+    #print(type(frequency_table))
+    interasjon = 0
+    for hverOrd in FILL_WORDS[:]:
+        del frequency_table[FILL_WORDS[interasjon]]
+        interasjon = interasjon +1 
+         
+#        interasjon += interasjon
+    print(frequency_table)
+    #no_rivers_dict= frequency_table.pop('og')
+   # del frequency_table('og')
+    #tall = frequency_table.popitem('dei')
     
-    return resultatWords  # TODO: Du må erstatte denne linjen
+    #print(tall)
+    #print(no_rivers_dict)
+    
+    #for hvertElement in FILL_WORDS[:]:
+    #OrdBokFjernetMas = {key.replace}
+    #    resultatWords = frequency_table.strip([tall])
+    #    tall += tall
+    
+    
+   # print(resultatWords)
+    return frequency_table  # TODO: Du må erstatte denne linjen
 
 
 def largest_pair(par_1, par_2):
-    """
-    Denne funksjonen får som input to tupler/par (https://docs.python.org/3/library/stdtypes.html#tuple) der den
-    første komponenten er en string (et ord) og den andre komponenten er en integer (heltall).
-    Denne funksjonen skal sammenligne heltalls-komponenten i begge par og så gi tilbake det paret der
-    tallet er størst.
-    """
+    # """
+    # Denne funksjonen får som input to tupler/par (https://docs.python.org/3/library/stdtypes.html#tuple) der den
+    # første komponenten er en string (et ord) og den andre komponenten er en integer (heltall).
+    # Denne funksjonen skal sammenligne heltalls-komponenten i begge par og så gi tilbake det paret der
+    # tallet er størst.
+    
+    print('verdi av 0th index i tuple 1 : ', par_1[:])
+    print('fg', par_2[:])
+    
+    #tuple(1)
+    #print(par1[0])
+    #print(type(par_2))
     # OBS: Tenk også på situasjonen når to tall er lik! Vurder hvordan du vil handtere denne situasjonen
     # kanskje du vil skrive noen flere test metoder ?!
-    return NotImplemented  # TODO: Du må erstatte denne linjen
+    #return NotImplemented  # TODO: Du må erstatte denne linjen
 
 
 def find_most_frequent(frequency_table):
@@ -108,9 +158,19 @@ def find_most_frequent(frequency_table):
     Nå er det på tide å sette sammen alle bitene du har laget.
     Den funksjonen får frekvenstabllen som innputt og finner det ordet som dykket opp flest.
     """
+    #Vet at listen allerede er sortert fra tidligere.... henter bare ut siste verdi
+    print(len(frequency_table))
+    siste = list(frequency_table)[-1]
+    print(siste)
+    return siste
+    #print(last key = list(frequency_table[-1])
+    #print(frequency_table['odin'])
+    
+    #tall=  frequency_table.popitem('odin')
+    #print(tall)
     # Tips: se på "dict.items()" funksjonen (https://docs.python.org/3/library/stdtypes.html#dict.items)
     # og kanskje du kan gjenbruke den "largest_pair" metoden som du nettopp har laget
-    return NotImplemented  # TODO: Du må erstatte denne linjen
+    #return NotImplemented  # TODO: Du må erstatte denne linjen
 
 
 ############################################################
@@ -135,13 +195,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
-#notater lasse
-#file = open(file-name)
-#content = file.read()
-#Lines= content.split('\n')
-#file.close()
-#return lines
