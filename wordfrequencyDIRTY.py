@@ -228,7 +228,7 @@ def find_most_frequent(frequency_table):
             IndexPlasseringTilORDET=index
             
     print('ordet med flest forekomster er  '+ ORDETSomErMestAv + 'med ' + str(AntallGangerAvORDET) +' forkomster')
-    print('Ble funnet på index' + str(IndexPlasseringTilORDET) + 'i tabellen')        
+    print('Ble funnet på index' + str(IndexPlasseringTilORDET) + 'i tabellen ')        
 
     return ORDETSomErMestAv
     

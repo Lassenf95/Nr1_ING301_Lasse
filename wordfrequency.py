@@ -103,16 +103,26 @@ def largest_pair(par_1, par_2):
     
     
     if par_1[1] > par_2[1]:  
-        print('Par1 er størt med verdien ' + str(par_1[1]))
+        # print('Par1 er størt med verdien ' + str(par_1[1]))
         BiggestTuple = par_1
     elif par_1[1] < par_2[1]: 
-        print('Par2 er størt med verdien ' + str(par_2[1]))
+        # print('Par2 er størt med verdien ' + str(par_2[1]))
         BiggestTuple = par_2
     else: 
-        print('Like store')
+        # print('Like store')
         return None #verdiene er like stor. Gir beskjed om at de ikke kan sammenlignes.
     
-    return BiggestTuple  # TODO: Du må erstatte denne linjen
+    '''#SE UNDER TEST-PROGRAM
+        #Tester at først at testen finner største paret... Dersom world,5 finnes i listen av par1 og par2, 
+        # så retunerer testen bare None fordi de er like. Da er det OK. Testen returerer riktig TUPLER.
+        resultT1 = self.assertEqual(("World", 5), wf.largest_pair(('Hallo', 3), ("World", 5)))
+        print('Test for ulike verdier', 'Bestått' if resultT1 is None else "Feilet")
+        #Nå skal jeg se at resten returnerer None dersom jeg tester 2 ord med like mange forekomster
+        resultT2 = self.assertEqual(None, wf.largest_pair(('Hallo', 5), ("World", 5)))
+        print('Test for like verdier', 'Bestått' if resultT2 is None else "Feilet")
+    '''  
+    #Hvis en av testene gir at par 1 eller par 2 er størst så returneres par, ellers NONE
+    return BiggestTuple  # TODO: Du må erstatte denne linjen HV
 
 
 def find_most_frequent(frequency_table):
@@ -122,18 +132,7 @@ def find_most_frequent(frequency_table):
     """
     #FORSØK TO... Tar inn alle verdiene. Sjekker så alle forekomster av hvert ord. Når et nyttOrd har forekomt flest
     #ganger hittil, så lagres indeksen for dette ordet. Til slutt så hentes ordet som forkommer mest ut med indeksen som er funnet.
-    
-    # #vet at formatet i frekvens tabellene er slik
-    # " eks= "
-    # MestBruktOrd=''
-    # MestBruktOrdAntall = 0
-    # MestBruktOrdIndex = 0    
-    # for hvertElement in frequency_table:
-    #     if(hvert)
 
-    # for key, value in table.items():
-    #     if 
-    #     print(f"{key}: {value}")
     AntallGangerAvORDET = -1 #setter en verdi av ordet. Vet at -1 0 osv ikke er brukt siden alle vil jo ha min 1 forkomest
     ORDETSomErMestAv= 'ordet'
     IndexPlasseringTilORDET=-1
@@ -144,25 +143,12 @@ def find_most_frequent(frequency_table):
             ORDETSomErMestAv = ordet
             IndexPlasseringTilORDET=index
             
-    print('ordet med flest forekomster er  '+ ORDETSomErMestAv + 'med ' + str(AntallGangerAvORDET) +' forkomster')
-    print('Ble funnet på index' + str(IndexPlasseringTilORDET) + 'i tabellen ')        
+    # print('ordet med flest forekomster er  '+ ORDETSomErMestAv + 'med ' + str(AntallGangerAvORDET) +' forkomster')
+    # print('Ble funnet på index' + str(IndexPlasseringTilORDET) + 'i tabellen ')        
 
     return ORDETSomErMestAv
     
-    # #DUM LØSNINT START
-    # #Vet at listen allerede er sortert fra tidligere.... henter bare ut siste verdi
-    # SortertOrdbok = dict(sorted(frequency_table.items(), key=lambda item: item[1]))
-    # print(len(SortertOrdbok))
-    # siste = list(SortertOrdbok)[-1]
-    # print(siste)
-    # #DUM LØSNING SLUTT
-    # return siste
-
-    #print(last key = list(frequency_table[-1])
-    #print(frequency_table['odin'])
-    
-    #tall=  frequency_table.popitem('odin')
-    #print(tall)
+    #
     # Tips: se på "dict.items()" funksjonen (https://docs.python.org/3/library/stdtypes.html#dict.items)
     # og kanskje du kan gjenbruke den "largest_pair" metoden som du nettopp har laget
     #return NotImplemented  # TODO: Du må erstatte denne linjen
