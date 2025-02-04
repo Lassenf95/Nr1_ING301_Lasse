@@ -5,50 +5,63 @@ import collections
 #
 
 def read_file(file_name):
-    """
-    Denne funksjonen får et filnavn som argument og skal gi
-    tilbake en liste av tekststrenger som representerer linjene i filen.
-    """
-    # Tips: kanksje "open"-funksjonen kunne være nyttig her: https://docs.python.org/3/library/functions.html#open
+    # """
+    # Denne funksjonen får et filnavn som argument og gir
+    # tilbake en liste av tekststrenger som representerer linjene i filen.
+    # """
+    # #får feilmelding på at python ikke kan lese det. formatet på filen er cp1252, konverter til utf-8.
+    # filenSomLeses = open(file_name)
     filenSomLeses = open(file_name, encoding="utf-8")     
     innholdIFilen = filenSomLeses.read()
+    #innholdIFilen = innholdIFilen.split('')
     innholdSomLinjer = innholdIFilen.split("\n")
-    innholdBareLinjerMedOrd = list(filter(None, innholdSomLinjer)) #fjenrer alle tomme linjer
+    # itere=0
+    # for linjer in innholdSomLinjer[:]:
+    #     print(innholdSomLinjer[itere])
+    #     itere = itere + 1
+    #ser at teksten inneholder tomme linjer også. Disse må slettes.
+    innholdBareVerdier = list(filter(None, innholdSomLinjer))
+    
+    # itere=0
+    # for linjer in innholdBareVerdier[:]:
+    #     print(innholdBareVerdier[itere])
+    #     itere = itere + 1     
+        
+        
+    #ALTERNATIV ENDA KORTET 
+    #with open(file_name, encoding="utf-8") as filenSomLeses:
+     #  innholdSomLinjer =  file_name.read().splitlines()
+    
+    #with open(file_name, encoding='utf-8') as fil:
+     #   innholdSomLinjer = [linje for linje in fil.read().splitlines() if linje]  
+    
+    # resultat = []
+    # for linje in innholdSomLinjer[1:]:
+    #     # result.append(Point(linje))
+    #     resultat += linje #like funksjoner
     filenSomLeses.close()
-    return innholdBareLinjerMedOrd
+    return innholdBareVerdier
 
 
 
 
-def lines_to_words(lines):
-#      """
-#     Denne funksjonen får en liste med strenger som input (dvs. linjene av tekstfilen som har nettopp blitt lest inn)
-#     og deler linjene opp i enkelte ord. Enhver linje blir delt opp der det er blanktegn (= whitespaces).
-#     Desto videre er vi bare interessert i faktiske ord, dvs. alle punktum (.), kolon (:), semikolon (;),
-#     kommaer (,), spørsmåls- (?) og utråbstegn (!) skal fjernes underveis.
-#     Til sist skal alle ord i den resulterende listen være skrevet i små bokstav slik at "Odin" og "odin"
-#     blir behandlet likt.
-#     OBS! Pass også på at du ikke legger til tomme ord (dvs. "" eller '' skal ikke være med) i resultatlisten!
-
-#     F. eks: Inn: ["Det er", "bare", "noen få ord"], Ut: ["Det", "er", "bare", "noen", "få", "ord"]
-#     """
-#     # 
-    
-    EnStorString= '' #VIKTIG AT DENNE ER TOM; BYGGES BARE VIDERE PÅ
-    #bygger opp hele stringen før splitting og rensing , merk mellomrom legges slik at blir en lang setning
-    for alleLinjer in lines:  
+def lines_to_words(lines): 
+    EnStorString=''
+    for alleLinjer in lines:   #bygger opp hele stringen før splitting og rensing , merk mellomrom legges slik at blir en lang setning
         EnStorString += alleLinjer +' ' 
-    
+    #print(EnStorString)
+    #print(EnStorString)
     TEGN_JEG_VIL_FJERNE = ['-','-',',',';','!','?',':','.'] #RENSETIS
    
-    #erstatter alle tegn og erstatter de med ingenting
     for hvertElement in TEGN_JEG_VIL_FJERNE: 
-        EnStorString = EnStorString.replace(hvertElement,'')  
+        EnStorString = EnStorString.replace(hvertElement,'')  #erstatter alle tegn og erstatter de med ingenting
+    #print(EnStorString)
     
     #får alt i lower case
     EnStorString = EnStorString.lower() #Overskriver stringen med en ny string der alt ewr lite
-   
+    #print(EnStorString)
     #gjør om til liste igjen. splitter alt med mellomrom mellom seg
+    #print(EnStorString)
     Resultatet = EnStorString.split()
     return Resultatet
 
@@ -63,12 +76,42 @@ def compute_frequency(words):
 
     F. eks. Inn ["hun", "hen", "han", "hen"], Ut: {"hen": 2, "hun": 1, "han": 1}
     """
-    #lager en tom dict. Mater alle ordene inn. Lagger til et tilfellet hver gang ordet oppstår på nytt
+    ##LASSE LINJER START
+    
+    #Ordbok = {}
+    #bruker collections sin tellefunksjon som teller antall forekomseter av ord i en lsitet sortet-
+    #OrdForekomst = collections.Counter(words)
     Ordbok = {} #MANGE MÅTER
     for word in words[:]:
         Ordbok[word] = Ordbok.get(word, 0) +1
+    #sorter
+    #SortertOrdbok = dict(sorted(Ordbok.items(), key=lambda item: item[1]))
+    #print(type(Ordbok))
+    #SortertOrdbok =/=
+    #SortertOrdbok=sorted(Ordbok.keys()) #[:]
+    #print(Ordbok)
+    #sorted(frequency_table.keys())
+   # print(SortertOrdbok)
      
-    return Ordbok
+    return Ordbok #senter ut resultatet 
+   # OrdForekomst = compute_frequency(words.split())
+    #print(OrdForekomst)
+    #print(type(OrdForekomst))
+    #return OrdForekomst
+    
+    # for Ord in words:
+    #     if Ord in Ordbok:
+    #         Ordbok[Ord] += 1 #tell opp en hvis ordet finnes
+    #     else:
+    #         Ordbok[ord]= 1 #legger til ordet med verdi en når nye ord finnes
+
+    # print(Ordbok)
+    
+    # #compute_frequency('hun', 'hen', 'han', 'hen')
+    # #print(compute_frequency(["hun", "hen", "han", "hen"]))
+    # return Ordbok
+    ##LASSE LINJER SLUTT
+    
 
 FILL_WORDS = ['og', 'dei', 'i', 'eg', 'som', 'det', 'han', 'til', 'skal', 'på', 'for', 'då', 'ikkje', 'var', 'vera']
 
@@ -81,37 +124,77 @@ def remove_filler_words(frequency_table):
     Målet med denne funksjonen er at den skal få en frekvenstabll som input og så fjerne alle fyll-ord
     som finnes i FILL_WORDS.
     """
-    
-    #sjekker hvert ord i dicten. Sletter hvert ord i tabellene som er av et ord som inngår i FILL_WORDS
+    #del frequency_tabl[]
+    #print(type(frequency_table))
+    #interasjon = -1
+    #for index, hvertOrd in enumerate(FILL_WORDS):
     for key in FILL_WORDS:
         frequency_table.pop(key, None)
     
+    #del frequency_table[''dei'']
+        #interasjon = interasjon +1 
+         
+    #for hvertElement in TEGN_JEG_VIL_FJERNE: 
+    #    EnStorString = EnStorString.replace(hvertElement,'') 
+         
+         
+#        interasjon += interasjon
+    #print(frequency_table)
+    #no_rivers_dict= frequency_table.pop('og')
+   # del frequency_table('og')
+    #tall = frequency_table.popitem('dei')
+    
+    #print(tall)
+    #print(no_rivers_dict)
+    
+    #for hvertElement in FILL_WORDS[:]:
+    #OrdBokFjernetMas = {key.replace}
+    #    resultatWords = frequency_table.strip([tall])
+    #    tall += tall
+    
+    
+   # print(resultatWords)
     return frequency_table  # TODO: Du må erstatte denne linjen
 
 def largest_pair(par_1, par_2):
-    #  """
-    # Denne funksjonen får som input to tupler/par (https://docs.python.org/3/library/stdtypes.html#tuple) der den
-    # første komponenten er en string (et ord) og den andre komponenten er en integer (heltall).
-    # Denne funksjonen skal sammenligne heltalls-komponenten i begge par og så gi tilbake det paret der
-    # tallet er størst.
-    # """
-    # # OBS: Tenk også på situasjonen når to tall er lik! Vurder hvordan du vil handtere denne situasjonen
-    # kanskje du vil skrive noen flere test metoder ?!
+     # """
+     # Denne funksjonen får som input to tupler/par (https://docs.python.org/3/library/stdtypes.html#tuple) der den
+     # første komponenten er en string (et ord) og den andre komponenten er en integer (heltall).
+     # Denne funksjonen skal sammenligne heltalls-komponenten i begge par og så gi tilbake det paret der
+     # tallet er størst.
+    #EKS par1 =()'navn1':32)
+    # par2 = ('navn2' :4)
     
-    #definer en ny tuple med ukjent innhpød
+    # test1= ('navn1',32)
+    # test2= ('nav2', 55)
+    # print(test1[0])
+    
+    
+    # test1= ('navn1',1)
+    # test2= ('nav2', .1)
+    # print(test1[0])
+    # print(test1[1])
+    # print(test2[0])
+    # print(test2[1])
     BiggestTuple = ()
     
-    
     if par_1[1] > par_2[1]:  
-        print('Par1 er størt med verdien ' + str(par_1[1]))
+        print('Par1 er størt med verdien' + str(par_1[1]))
         BiggestTuple = par_1
     elif par_1[1] < par_2[1]: 
-        print('Par2 er størt med verdien ' + str(par_2[1]))
+        print('Par er størt med verdien' + str(par_2[1]))
         BiggestTuple = par_2
     else: 
         print('Like store')
-        return None #verdiene er like stor. Gir beskjed om at de ikke kan sammenlignes.
-    
+        BiggestTuple = par_1
+    # print('verdi av 0th index i tuple 1 : ', par_1[:])
+    # print('fg', par_2[:])
+    # pri
+    # tuple(1)
+    # print(par1[0])
+    # print(type(par_2))
+     # OBS: Tenk også på situasjonen når to tall er lik! Vurder hvordan du vil handtere denne situasjonen
+    #kanskje du vil skrive noen flere test metoder ?! 
     return BiggestTuple  # TODO: Du må erstatte denne linjen
 
 
@@ -145,7 +228,7 @@ def find_most_frequent(frequency_table):
             IndexPlasseringTilORDET=index
             
     print('ordet med flest forekomster er  '+ ORDETSomErMestAv + 'med ' + str(AntallGangerAvORDET) +' forkomster')
-    print('Ble funnet på index' + str(IndexPlasseringTilORDET) + 'i tabellen ')        
+    print('Ble funnet på index' + str(IndexPlasseringTilORDET) + 'i tabellen')        
 
     return ORDETSomErMestAv
     
@@ -186,7 +269,6 @@ def main():
     table = remove_filler_words(table) 
     most_frequent = find_most_frequent(table)
     print(f"The most frequent word in {file} is '{most_frequent}'")
-
     
 if __name__ == '__main__':
     main()

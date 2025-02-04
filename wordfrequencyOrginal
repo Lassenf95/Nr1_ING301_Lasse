@@ -16,16 +16,8 @@ def read_file(file_name):
     Denne funksjonen får et filnavn som argument og skal gi
     tilbake en liste av tekststrenger som representerer linjene i filen.
     """
-    filenSomLeses = open(file_name)
-    innholdIFilen = filenSomLeses.read()
-    innholdSomLinjer = innholdIFilen.split('\n')
-    #resultatSomSkalReturneres = [] #udenfinert først
-    #for lines in innholdSomLinjer[1:]: #for hver eneste linjer skal verdiene mates tilbake. Kjører på helt til ingen linjer gjenstår
-    #    resultatSomSkalReturneres.append(lines_to_words(lines)) #bygger på for hver kjøring
-    #filenSomLeses.close() #lukker filen når alle linjene er lest ut   
-    #return resultatSomSkalReturneres 
-    filenSomLeses.close()
-    return innholdSomLinjer
+    # Tips: kanksje "open"-funksjonen kunne være nyttig her: https://docs.python.org/3/library/functions.html#open
+    return NotImplemented  # TODO: Du må erstatte denne linjen
 
 
 def lines_to_words(lines):
@@ -43,23 +35,8 @@ def lines_to_words(lines):
     # Tips: se på "split()"-funksjonen https://docs.python.org/3/library/stdtypes.html#str.split
     # i tillegg kan "strip()": https://docs.python.org/3/library/stdtypes.html#str.strip
     # og "lower()": https://docs.python.org/3/library/stdtypes.html#str.lower være nyttig
-    
-     ##LASSE LINJER START
-    resulterendeString = '' # tom streng 
-    
-    for alleLinjer in lines:    
-        LinjerTilOrd = alleLinjer.split(' ') #splitter opp den aktuelle linjen til stringer for hvert mellomrom
-        LinjerTilOrdFilterer = LinjerTilOrd.strip(',','.',':',';','!','?')                                             
-        resulterendeString += LinjerTilOrdFilterer
-        #
-        #for alleOrd in listenMin:
-        #LinjerTilOrdFilterer = alleOrd.strip([',','.',':',';','!','?']) #fjerner alle ''ord'' i listen som er av , . : ; ! `?`
-        #LinjerSmaaBokstaver = LinjerTilOrdFilterer.lower()
-        #resultat += LinjerSmaaBokstaver #bygger opp en ny liste med alle ordene
-        #resultat = LinjerTilOrdFilterer
-    return resulterendeString
-    ##LASSE LINJER SLUTT
-    
+    return NotImplemented  # TODO: Du må erstatte denne linjen
+
 
 def compute_frequency(words):
     """
@@ -69,11 +46,8 @@ def compute_frequency(words):
 
     F. eks. Inn ["hun", "hen", "han", "hen"], Ut: {"hen": 2, "hun": 1, "han": 1}
     """
-    ##LASSE LINJER START
-    resultat = list(words.values())
-    return resultat 
-    ##LASSE LINJER SLUTT
-    
+    return NotImplemented  # TODO: Du må erstatte denne linjen
+
 
 FILL_WORDS = ['og', 'dei', 'i', 'eg', 'som', 'det', 'han', 'til', 'skal', 'på', 'for', 'då', 'ikkje', 'var', 'vera']
 
@@ -86,9 +60,7 @@ def remove_filler_words(frequency_table):
     Målet med denne funksjonen er at den skal få en frekvenstabll som input og så fjerne alle fyll-ord
     som finnes i FILL_WORDS.
     """
-    resultatWords = frequency_table.strip([FILL_WORDS])
-    
-    return resultatWords  # TODO: Du må erstatte denne linjen
+    return NotImplemented  # TODO: Du må erstatte denne linjen
 
 
 def largest_pair(par_1, par_2):
@@ -135,13 +107,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
-#notater lasse
-#file = open(file-name)
-#content = file.read()
-#Lines= content.split('\n')
-#file.close()
-#return lines

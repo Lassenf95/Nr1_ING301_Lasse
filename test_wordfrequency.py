@@ -48,8 +48,26 @@ class TestAssignment2(unittest.TestCase):
         self.assertEqual(expected, wf.remove_filler_words(data))
 
     def test_largest_pair(self):
-        self.assertEqual(("World", 5), wf.largest_pair(('Hallo', 3), ("World", 5)))
+        #Tester at først at testen finner største paret... Dersom world,5 finnes i listen av par1 og par2, 
+        # så retunerer testen bare None fordi de er like. Da er det OK. Testen returerer riktig TUPLER.
+        resultT1 = self.assertEqual(("World", 5), wf.largest_pair(('Hallo', 3), ("World", 5)))
+        print('Test for ulike verdier', 'Bestått' if resultT1 is None else "Feilet")
+        
+           
+        #Nå skal jeg se at resten returnerer None dersom jeg tester 2 ord med like mange forekomster
+        resultT2 = self.assertEqual(None, wf.largest_pair(('Hallo', 5), ("World", 5)))
+        print('Test for like verdier', 'Bestått' if resultT2 is None else "Feilet")
         # kanskje du vil utvide test casene her
+        #Gitt tilfellet at tupler med ulike navn, men likt antall forekommer
+        #så må en beskjed gies.
+        
+        # #tester på likt antalll
+        # stautsTest= self.assertEqual(("Frodo", 43), wf.largest_pair(('Frode', 43), ('Frodo', 43)))
+        # print(statusTest1)
+        # statusTest2= self.assertIsNone(wf.largest_pair(('A', 10), ('B', 10)))  # Tester like verdier
+        # print(statusTest2)
+
+
 
     def test_find_most_frequent(self):
         data = {
